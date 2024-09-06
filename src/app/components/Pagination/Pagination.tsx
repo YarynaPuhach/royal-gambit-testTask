@@ -3,7 +3,6 @@ import styles from './Pagination.module.scss';
 import { useProductContext } from '@/app/context/ProductsContext';
 import { useProducts } from '@/app/utils/hooks/useProducts';
 import Loader from '../Loader/Loader';
-import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 const Pagination: React.FC = () => {
   const { page, setPage } = useProductContext();

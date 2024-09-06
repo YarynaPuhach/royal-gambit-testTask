@@ -19,7 +19,9 @@ const Loader: React.FC = () => {
     <div className={styles.container}>
       <Image 
         src="https://framerusercontent.com/images/4QIsgV0jA39qjUNRP0Yv00iMjI.png" 
-        alt="" 
+        alt="Loading.." 
+        height='200'
+        width='200'
         className={`pulsatingImg ${styles.img}`} 
       />
     </div>
