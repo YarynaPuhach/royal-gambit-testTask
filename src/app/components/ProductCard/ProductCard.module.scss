@@ -68,13 +68,9 @@
     }
   }
   .inactive {
-    .title,
-    .description {
-      color: #999;
-    }
   
     .image {
-      filter: grayscale(100%);
+      opacity: 0.5;
     }
   
     .buttonWrapper {
