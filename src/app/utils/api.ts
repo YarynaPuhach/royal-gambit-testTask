@@ -17,7 +17,7 @@ export async function filterProducts(
 
   params.append('limit', limit.toString());
   
-  let currentPage = page;
+  const currentPage = page;
   params.append('page', currentPage.toString());
 
   if (searchQuery) params.append('name', searchQuery);

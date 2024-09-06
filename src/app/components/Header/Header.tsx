@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './Header.module.scss';
 import Button from '../Button/Button';
 import Filters from '../Filter/Filter';
