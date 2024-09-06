@@ -10,19 +10,19 @@ function Filters() {
         <input
           className={styles.checkbox}
           type="checkbox"
-          checked={promotional}
-          onChange={(e) => setPromotional(e.target.checked)}
+          checked={active}
+          onChange={(e) => setActive(e.target.checked)}
         />
-        <span className={styles.filterText}>Promo</span>
+        <span className={styles.filterText}>Active</span>
       </label>
       <label className={styles.filterLabel}>
         <input
           className={styles.checkbox}
           type="checkbox"
-          checked={active}
-          onChange={(e) => setActive(e.target.checked)}
+          checked={promotional}
+          onChange={(e) => setPromotional(e.target.checked)}
         />
-        <span className={styles.filterText}>Active</span>
+        <span className={styles.filterText}>Promo</span>
       </label>
     </div>
   );

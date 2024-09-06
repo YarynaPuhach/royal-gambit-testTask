@@ -36,9 +36,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onClick }) => {
         </div>
         <div className={styles.footer}>
           <Rating rating={rating} />
-          <Button magnetic={active} onClick={onClick}>
-            {active ? 'Show details': 'Unavailable'}
-          </Button>
+          <div className={styles.buttonWrapper}>
+            <Button magnetic={active} onClick={onClick}>
+              {active ? 'Show details': 'Unavailable'}
+            </Button>
+          </div>
         </div>
       </div>
     </div>

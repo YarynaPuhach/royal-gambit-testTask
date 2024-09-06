@@ -68,12 +68,27 @@
     }
   }
   .inactive {
-    opacity: 0.5;
-    filter: grayscale(100%);
+    .title,
+    .description {
+      color: #999;
+    }
+  
+    .image {
+      filter: grayscale(100%);
+    }
+  
+    .buttonWrapper {
+      opacity: 0.5;
+      pointer-events: none;
+      filter: grayscale(100%)
+    }
+    .promoFlag {
+      display: none;
+    }
   }
   
-  .inactiveImage {
-    filter: grayscale(100%);
+  .buttonWrapper {
+    width: 100%;
   }
 
   @import '../../utils/mixin.scss';
