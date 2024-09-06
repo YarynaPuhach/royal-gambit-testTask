@@ -46,7 +46,7 @@ export const useProducts = () => {
     };
 
     fetchProducts();
-  }, [searchQuery, promotional, active, page, itemsPerPage]);
+  }, [searchQuery, promotional, active, page]);
 
   return state;
 };

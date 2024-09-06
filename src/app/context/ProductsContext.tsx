@@ -21,6 +21,7 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+
   const setUrlParam = useCallback((key: string, value: string | number | boolean) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set(key, value.toString());

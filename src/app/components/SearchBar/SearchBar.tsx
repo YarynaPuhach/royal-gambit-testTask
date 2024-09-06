@@ -1,25 +1,48 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { debounce } from 'lodash';
 import { useProductContext } from '../../context/ProductsContext';
 import styles from './SearchBar.module.scss';
 
 function SearchBar() {
   const { setSearchQuery, searchQuery } = useProductContext();
   const [inputValue, setInputValue] = useState(searchQuery);
-
-  const debouncedSetSearchQuery = useRef(
-    debounce((query: string) => setSearchQuery(query), 300)
-  ).current;
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     setInputValue(searchQuery);
   }, [searchQuery]);
 
+  const debouncedSetSearchQuery = useCallback((query: string) => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    timeoutRef.current = setTimeout(() => {
+      setSearchQuery(query);
+    }, 300);
+  }, [setSearchQuery]);
+
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
-    setInputValue(query); 
-    debouncedSetSearchQuery(query); 
+    setInputValue(query);
+    debouncedSetSearchQuery(query);
   }, [debouncedSetSearchQuery]);
+
+// import { useState, useCallback, useEffect } from 'react';
+// import { useProductContext } from '../../context/ProductsContext';
+// import styles from './SearchBar.module.scss';
+
+// function SearchBar() {
+//   const { setSearchQuery, searchQuery } = useProductContext();
+//   const [inputValue, setInputValue] = useState(searchQuery);
+
+//   useEffect(() => {
+//     setInputValue(searchQuery);
+//   }, [searchQuery]);
+
+//   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+//     const query = e.target.value;
+//     setInputValue(query);
+//     setSearchQuery(query);
+//   }, [setSearchQuery]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
