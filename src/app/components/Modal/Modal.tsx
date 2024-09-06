@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import styles from './Modal.module.scss';
-import { Product } from '@/app/utils/types';
+import { Product } from '../../utils/types';
 import Button from '../Button/Button';
 import Rating from '../Rating/Rating';
 

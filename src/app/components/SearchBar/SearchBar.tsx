@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef } from 'react';
 import { debounce } from 'lodash';
-import { useProductContext } from '@/app/context/ProductsContext';
+import { useProductContext } from '../../context/ProductsContext';
 import styles from './SearchBar.module.scss';
 
 function SearchBar() {

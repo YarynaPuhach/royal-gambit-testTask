@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import styles from './ProductCard.module.scss';
-import { Product } from '@/app/utils/types';
+import { Product } from '../../utils/types';
 import Rating from '../Rating/Rating';
 import Button from '../Button/Button';
 

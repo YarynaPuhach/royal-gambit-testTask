@@ -1,8 +1,8 @@
+'use client';
 import { useState, useEffect } from 'react';
 import { filterProducts } from '../api';
 import { useProductContext } from '../../context/ProductsContext';
 import { Product } from '../types';
-import { useSearchParams } from 'next/navigation';
 
 interface ProductsState {
   products: Product[];
@@ -14,7 +14,6 @@ interface ProductsState {
 
 export const useProducts = () => {
   const { searchQuery, promotional, active, page, itemsPerPage } = useProductContext();
-  const searchParams = useSearchParams();
   const [state, setState] = useState<ProductsState>({
     products: [],
     hasMore: false,
@@ -47,7 +46,7 @@ export const useProducts = () => {
     };
 
     fetchProducts();
-  }, [searchParams]);
+  }, [searchQuery, promotional, active, page, itemsPerPage]);
 
   return state;
 };

@@ -1,8 +1,8 @@
 'use client'
 import React from 'react';
 import styles from './Pagination.module.scss';
-import { useProductContext } from '@/app/context/ProductsContext';
-import { useProducts } from '@/app/utils/hooks/useProducts';
+import { useProductContext } from '../../context/ProductsContext';
+import { useProducts } from '../../utils/hooks/useProducts';
 
 const Pagination: React.FC = () => {
   const { page, setPage } = useProductContext();

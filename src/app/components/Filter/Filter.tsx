@@ -1,4 +1,4 @@
-import { useProductContext } from '@/app/context/ProductsContext';
+import { useProductContext } from '../../context/ProductsContext';
 import styles from './Filters.module.scss';
 
 function Filters() {  
