@@ -1,33 +1,53 @@
-import { useQuery } from '@tanstack/react-query';
+import { useState, useEffect } from 'react';
 import { filterProducts } from '../api';
-import { useProductContext } from '@/app/context/ProductsContext';
+import { useProductContext } from '../../context/ProductsContext';
 import { Product } from '../types';
+import { useSearchParams } from 'next/navigation';
 
-const STALE_TIME = 60000;
+interface ProductsState {
+  products: Product[];
+  hasMore: boolean;
+  currentPage: number;
+  isLoading: boolean;
+  error: Error | null;
+}
 
 export const useProducts = () => {
   const { searchQuery, promotional, active, page, itemsPerPage } = useProductContext();
+  const searchParams = useSearchParams();
+  const [state, setState] = useState<ProductsState>({
+    products: [],
+    hasMore: false,
+    currentPage: 1,
+    isLoading: true,
+    error: null,
+  });
 
-  return useQuery<{ products: Product[]; hasMore: boolean; currentPage: number }, Error>({
-    queryKey: ['products', searchQuery, promotional, active, page, itemsPerPage],
-    queryFn: () => {
-      const result = filterProducts(
-        {
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setState(prev => ({ ...prev, isLoading: true, error: null }));
+      try {
+        const result = await filterProducts({
           promotional,
           active,
           searchQuery,
           page,
           limit: itemsPerPage
-        },
-      );
-      return result;
-    },
-    staleTime: STALE_TIME,
-    select: ({ products, hasMore, currentPage }) => ({
-      products,
-      hasMore,
-      productCount: products.length,
-      currentPage,
-    }),
-  });
+        });
+        setState({
+          products: result.products,
+          hasMore: result.hasMore,
+          currentPage: result.currentPage,
+          isLoading: false,
+          error: null,
+        });
+      } catch (error) {
+        setState(prev => ({ ...prev, isLoading: false, error: error as Error }));
+      }
+    };
+
+    fetchProducts();
+  }, [searchParams]);
+
+  return state;
 };

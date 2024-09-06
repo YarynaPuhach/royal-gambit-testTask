@@ -2,7 +2,6 @@
     display: flex;
     align-items: center;
     width: 100%;
-    max-width: 500px;
     border: 1px solid #e0e0e0;
     border-radius: 10px;
     padding: 8px;
@@ -11,6 +10,7 @@
   
   .searchInput {
     flex: 1;
+    width: 100%;
     border: none;
     outline: none;
     padding: 8px;
@@ -36,5 +36,13 @@
   
     &:hover {
       color: #000;
+    }
+  }
+
+  @import '../../utils/mixin.scss';
+
+  .searchBar {
+    @include mobile {
+      width: unset;
     }
   }

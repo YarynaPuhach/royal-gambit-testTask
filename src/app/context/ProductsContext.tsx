@@ -1,4 +1,6 @@
-import React, { createContext, useState, ReactNode } from 'react';
+'use client';
+import React, { createContext, useContext, ReactNode, useCallback } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface ProductContextType {
   searchQuery: string;
@@ -16,23 +18,43 @@ interface ProductContextType {
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
 
 const ProductProvider = ({ children }: { children: ReactNode }) => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [promotional, setPromotional] = useState(false);
-  const [active, setActive] = useState(false);
-  const [page, setPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(8);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const setUrlParam = useCallback((key: string, value: string | number | boolean) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set(key, value.toString());
+    router.push(`?${params.toString()}`, { scroll: false });
+  }, [router, searchParams]);
+
+  const getUrlParam = useCallback((key: string, defaultValue: string) => {
+    return searchParams.get(key) || defaultValue;
+  }, [searchParams]);
+
+  const contextValue: ProductContextType = {
+    searchQuery: getUrlParam('search', ''),
+    setSearchQuery: (query) => setUrlParam('search', query),
+    promotional: getUrlParam('promotional', 'false') === 'true',
+    setPromotional: (promo) => setUrlParam('promotional', promo),
+    active: getUrlParam('active', 'false') === 'true',
+    setActive: (active) => setUrlParam('active', active),
+    page: parseInt(getUrlParam('page', '1'), 10),
+    setPage: (page) => setUrlParam('page', page),
+    itemsPerPage: parseInt(getUrlParam('itemsPerPage', '8'), 10),
+    setItemsPerPage: (items) => setUrlParam('itemsPerPage', items),
+  };
+
   return (
-    <ProductContext.Provider
-      value={{ searchQuery, setSearchQuery, promotional, setPromotional, active, setActive, page, setPage, itemsPerPage, setItemsPerPage }}
-    >
+    <ProductContext.Provider value={contextValue}>
       {children}
     </ProductContext.Provider>
   );
 };
-export default ProductProvider;
 
 export const useProductContext = () => {
-  const context = React.useContext(ProductContext);
+  const context = useContext(ProductContext);
   if (!context) throw new Error('useProductContext must be used within a ProductProvider');
   return context;
 };
+
+export default ProductProvider;

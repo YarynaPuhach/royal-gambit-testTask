@@ -1,11 +1,16 @@
-"use client";
-import ProductCatalog from "./components/ProductCatalog/ProductCatalog";
-import ProductProvider from "./context/ProductsContext";
+import Header from "./components/Header/Header";
+import Pagination from "./components/Pagination/Pagination";
+import ProductList from "./components/ProductList/ProductList";
 
 export default function Home() {
   return (
-    <ProductProvider>
-      <ProductCatalog />
-    </ProductProvider>
+    <>
+      <div className={'container'}>
+        <Header />
+        <ProductList />
+        <Pagination />
+      </div>
+    </>
+
   );
 }

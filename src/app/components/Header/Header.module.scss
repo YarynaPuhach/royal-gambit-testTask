@@ -2,13 +2,20 @@
 
 .header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
+    justify-content: center;
     background-color: white;
     border-bottom: 1px solid #e9ecef;
   }
-  
+
+  .container {
+    padding: 10px 20px;
+    width: 89%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   .logo {
     font-size: 24px;
     font-weight: bold;
@@ -16,20 +23,21 @@
   
   .filtersSearch {
     display: flex;
+    flex-grow: .3;
     align-items: center;
     gap: 20px;
   }
 
 
   @include mobile {
-    .header {
+    .container {
       display: grid;
       grid-template-rows: 1fr 1fr;
       grid-template-columns: 1fr 1fr;
     }
 
     .filtersSearch {
-      flex-direction: column;
+      flex-direction: column-reverse;
       align-items: stretch;
       width: 100%;
       margin-top: 10px;

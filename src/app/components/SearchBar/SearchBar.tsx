@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { debounce } from 'lodash';
 import { useProductContext } from '@/app/context/ProductsContext';
 import styles from './SearchBar.module.scss';
@@ -7,10 +7,9 @@ function SearchBar() {
   const { setSearchQuery } = useProductContext();
   const [inputValue, setInputValue] = useState('');
 
-  const debouncedSetSearchQuery = useMemo(
-    () => debounce((query: string) => setSearchQuery(query), 1000),
-    [setSearchQuery]
-  );
+  const debouncedSetSearchQuery = useRef(
+    debounce((query: string) => setSearchQuery(query), 1000)
+  ).current;
 
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;

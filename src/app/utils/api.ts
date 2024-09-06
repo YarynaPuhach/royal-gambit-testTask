@@ -12,25 +12,30 @@ export async function filterProducts(
     limit?: number;
   }
 ): Promise<{ products: Product[]; hasMore: boolean; currentPage: number }> {
-  const { promotional, active, searchQuery, page = 1, limit = 8 } = filters;
-  const params = new URLSearchParams();
+  try {
+    const { promotional, active, searchQuery, page = 1, limit = 8 } = filters;
+    const params = new URLSearchParams();
 
-  params.append('limit', limit.toString());
-  
-  const currentPage = page;
-  params.append('page', currentPage.toString());
+    params.append('limit', limit.toString());
+    
+    const currentPage = page;
+    params.append('page', currentPage.toString());
 
-  if (searchQuery) params.append('name', searchQuery);
-  if (promotional) params.append('promotion', promotional.toString());
-  if (active) params.append('active', active.toString());
+    if (searchQuery) params.append('name', searchQuery);
+    if (promotional) params.append('promotion', promotional.toString());
+    if (active) params.append('active', active.toString());
 
-  const response = await fetch(`${API_URL}?${params.toString()}`);
-  if (!response.ok) {
-    throw new Error('Can not fetch products');
+    const response = await fetch(`${API_URL}?${params.toString()}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch products');
+    }
+
+    const products = await response.json();
+    const hasMore = products.length === limit;
+
+    return { products, hasMore, currentPage };
+  } catch (error) {
+    console.error('Error filtering products:', error);
+    throw error;
   }
-
-  const products = await response.json();
-  const hasMore = products.length === limit;
-
-  return { products, hasMore, currentPage };
 }

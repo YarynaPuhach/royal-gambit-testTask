@@ -1,16 +1,12 @@
+'use client'
 import React from 'react';
 import styles from './Pagination.module.scss';
 import { useProductContext } from '@/app/context/ProductsContext';
 import { useProducts } from '@/app/utils/hooks/useProducts';
-import Loader from '../Loader/Loader';
 
 const Pagination: React.FC = () => {
   const { page, setPage } = useProductContext();
-  const { data, isLoading } = useProducts();
-
-  if (isLoading) return <Loader />;
-
-  const { hasMore } = data || {};
+  const { hasMore } = useProducts();
 
   const handlePrevPage = () => {
     if (page > 1) {

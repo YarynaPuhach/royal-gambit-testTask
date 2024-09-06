@@ -1,13 +1,15 @@
+'use client'
 import React, { useState } from 'react';
 import { Product } from '../../utils/types';
 import ProductCard from '../ProductCard/ProductCard';
 import styles from './ProductList.module.scss';
 import { useProducts } from '../../utils/hooks/useProducts';
 import Modal from '../Modal/Modal';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import ProductListSkeleton from './Skeleton/Skeleton';
 
 const ProductList: React.FC = () => {
-  const { data } = useProducts();
-  const products = data?.products;
+  const { products, error, isLoading } = useProducts();
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   const handleProductClick = (product: Product) => {
@@ -18,10 +20,13 @@ const ProductList: React.FC = () => {
     setSelectedProduct(null);
   };
 
+  if (error) return <ErrorMessage />;
+  if (isLoading) return <ProductListSkeleton />;
+
   return (
     <>
       <div className={styles.grid}>
-        {products?.map((product: Product) => (
+        {products.map((product: Product) => (
           <ProductCard 
             key={product.id} 
             product={product} 

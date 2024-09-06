@@ -1,17 +1,15 @@
-'use client';
-import { QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import { ReactNode } from "react";
 import './globals.css';
+import ProductProvider from "./context/ProductsContext";
 
-const queryClient = new QueryClient();
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <QueryClientProvider client={queryClient}>
+        <ProductProvider>
             {children}
-        </QueryClientProvider>
+          </ProductProvider>
       </body>
     </html>
   );

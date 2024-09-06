@@ -5,21 +5,16 @@ import Image from 'next/image';
 
 const ErrorMessage: React.FC = () => {
   useEffect(() => {
-    const tl = gsap.timeline();
-
-    tl.fromTo(
-      ".error-img",
-      { scale: 1.5 },
-      { scale: 1, duration: 1.5, ease: "power2.out" }
-    );
-
-    tl.fromTo(
-      ".error-text",
-      { scale: 0.5 },
-      { scale: 1, duration: 1.5, ease: "power2.out" },
-      "<"
-    );
+    gsap.to(".error-img", {
+      scale: 1.2,
+      opacity: 0.8,
+      repeat: -1,
+      yoyo: true,
+      duration: 1.5,
+      ease: "power1.inOut"
+    });
   }, []);
+
 
   return (
     <div className={styles.container}>
