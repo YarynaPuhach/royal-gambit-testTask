@@ -1,15 +1,19 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { debounce } from 'lodash';
 import { useProductContext } from '../../context/ProductsContext';
 import styles from './SearchBar.module.scss';
 
 function SearchBar() {
-  const { setSearchQuery } = useProductContext();
-  const [inputValue, setInputValue] = useState('');
+  const { setSearchQuery, searchQuery } = useProductContext();
+  const [inputValue, setInputValue] = useState(searchQuery);
 
   const debouncedSetSearchQuery = useRef(
-    debounce((query: string) => setSearchQuery(query), 1000)
+    debounce((query: string) => setSearchQuery(query), 300)
   ).current;
+
+  useEffect(() => {
+    setInputValue(searchQuery);
+  }, [searchQuery]);
 
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
@@ -17,8 +21,13 @@ function SearchBar() {
     debouncedSetSearchQuery(query); 
   }, [debouncedSetSearchQuery]);
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSearchQuery(inputValue);
+  };
+
   return (
-    <div className={styles.searchBar}>
+    <form onSubmit={handleSubmit} className={styles.searchBar}>
       <input
         type="text"
         value={inputValue}
@@ -26,7 +35,7 @@ function SearchBar() {
         placeholder="Пошук"
         className={styles.searchInput}
       />
-      <button type="button" className={styles.searchButton}>
+      <button type="submit" className={styles.searchButton}>
         <span role="img" aria-label="search">
           <svg
             width="25"
@@ -44,7 +53,7 @@ function SearchBar() {
           </svg>
         </span>
       </button>
-    </div>
+    </form>
   );
 }
 
