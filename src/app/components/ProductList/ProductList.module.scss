@@ -4,9 +4,13 @@
     gap: 16px;
     padding: 1rem;
     justify-content: center;
+    width: 80%;
+    margin: 0 auto;
   }
   
-  @media (max-width: 639px) {
+  @import '../../utils/mixin.scss';
+
+  @include mobile {
     .grid {
       grid-template-columns: 1fr;
     }
