@@ -60,7 +60,7 @@ const Modal: React.FC<ModalProps> = ({ product, onClose }) => {
           <Rating rating={rating} />
         </div>
         <Button className="secondary" onClick={handleClose}>
-          Закрити
+          Close
         </Button>
       </div>
     </div>

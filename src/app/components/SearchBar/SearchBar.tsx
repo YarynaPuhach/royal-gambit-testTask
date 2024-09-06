@@ -32,7 +32,7 @@ function SearchBar() {
         type="text"
         value={inputValue}
         onChange={handleInputChange}
-        placeholder="Пошук"
+        placeholder="Search"
         className={styles.searchInput}
       />
       <button type="submit" className={styles.searchButton}>
