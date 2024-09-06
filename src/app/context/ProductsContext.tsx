@@ -1,6 +1,7 @@
 'use client';
-import React, { createContext, useContext, ReactNode, useCallback } from 'react';
+import React, { createContext, useContext, ReactNode, useCallback, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+const CARD_WIDTH = 288 + 16;
 
 interface ProductContextType {
   searchQuery: string;
@@ -15,12 +16,18 @@ interface ProductContextType {
   setItemsPerPage: (items: number) => void;
 }
 
+const calculateItemsPerPage = () => {
+  const windowWidth = typeof window !== 'undefined' ? window.innerWidth : 1024; // Дефолтне значення для SSR
+  const cardsPerRow = Math.floor(windowWidth * 0.8 / CARD_WIDTH);
+  return Math.max(6, cardsPerRow * 2);
+};
+
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
 
 const ProductProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-
+  const [itemsPerPage, setItemsPerPageState] = useState(calculateItemsPerPage);
 
   const setUrlParam = useCallback((key: string, value: string | number | boolean) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -32,6 +39,28 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
     return searchParams.get(key) || defaultValue;
   }, [searchParams]);
 
+  const setItemsPerPage = useCallback((items: number) => {
+    setItemsPerPageState(items);
+    setUrlParam('itemsPerPage', items);
+  }, [setUrlParam]);
+
+  const updateItemsPerPage = useCallback(() => {
+    const newItemsPerPage = calculateItemsPerPage();
+    setItemsPerPage(newItemsPerPage);
+  }, [setItemsPerPage]);
+
+  useEffect(() => {
+    const storedItemsPerPage = parseInt(getUrlParam('itemsPerPage', '0'), 10);
+    if (storedItemsPerPage !== itemsPerPage) {
+      updateItemsPerPage();
+    }
+
+    window.addEventListener('resize', updateItemsPerPage);
+    return () => {
+      window.removeEventListener('resize', updateItemsPerPage);
+    };
+  }, [getUrlParam, itemsPerPage, updateItemsPerPage]);
+
   const contextValue: ProductContextType = {
     searchQuery: getUrlParam('search', ''),
     setSearchQuery: (query) => setUrlParam('search', query),
@@ -41,8 +70,8 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
     setActive: (active) => setUrlParam('active', active),
     page: parseInt(getUrlParam('page', '1'), 10),
     setPage: (page) => setUrlParam('page', page),
-    itemsPerPage: parseInt(getUrlParam('itemsPerPage', '8'), 10),
-    setItemsPerPage: (items) => setUrlParam('itemsPerPage', items),
+    itemsPerPage,
+    setItemsPerPage,
   };
 
   return (

@@ -13,10 +13,10 @@ export async function filterProducts(
   }
 ): Promise<{ products: Product[]; hasMore: boolean; currentPage: number }> {
   try {
-    const { promotional, active, searchQuery, page = 1, limit = 8 } = filters;
+    const { promotional, active, searchQuery, page = 1, limit} = filters;
     const params = new URLSearchParams();
 
-    params.append('limit', limit.toString());
+    if (limit) params.append('limit', limit.toString());
     
     const currentPage = page;
     params.append('page', currentPage.toString());
