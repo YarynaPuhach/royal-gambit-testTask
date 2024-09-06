@@ -1,0 +1,29 @@
+.filters {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .filterLabel {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .filterText {
+    margin-left: 8px;
+  }
+
+  .checkbox{
+    width: 2em;
+    height: 2em;
+    appearance: none;
+    border: 1px solid #dcdcdc;
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
+  
+    &:checked {
+      background-color: #333;
+      border-color: #333;
+    }
+  }

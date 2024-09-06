@@ -1,0 +1,18 @@
+.ratingContainer {
+    display: flex;
+    align-items: center;
+    align-self: flex-start;
+  }
+  
+  .star {
+    width: 1.25rem;
+    height: 1.25rem;
+    
+    &.active {
+      color: #facc15; // жовтий колір для активних зірок
+    }
+    
+    &.inactive {
+      color: #d1d5db; // сірий колір для неактивних зірок
+    }
+  }

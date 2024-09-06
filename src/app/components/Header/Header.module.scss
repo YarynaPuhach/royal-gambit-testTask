@@ -1,0 +1,49 @@
+@import '../../utils/mixin.scss';
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: white;
+    border-bottom: 1px solid #e9ecef;
+  }
+  
+  .logo {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .filtersSearch {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+
+  @include mobile {
+    .header {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .filtersSearch {
+      flex-direction: column;
+      align-items: stretch;
+      width: 100%;
+      margin-top: 10px;
+      grid-column: 1 / 3;
+      grid-row: 2 / 3;
+    }
+
+    .loginButton {
+      justify-self: end;
+      grid-row: 1 / 2;
+      grid-column: 2 / 3;
+    }
+
+    .logo {
+      margin-bottom: 10px;
+    }
+  }
